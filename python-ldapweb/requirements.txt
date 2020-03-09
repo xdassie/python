@@ -1,0 +1,7 @@
+waitress
+flask
+python-ldap
+requests
+paste
+jira
+flask-simpleldap
