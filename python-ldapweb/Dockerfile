@@ -1,3 +1,7 @@
 #FROM quay.io/xdassie/python:latest
 FROM python:3
-RUN pip install --upgrade pip && pip install --no-cache-dir --upgrade flask-simpleldap
+COPY requirements.txt ./
+
+RUN apt-get -y update && apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev libaio1 libaio-dev
+
+RUN pip install --upgrade pip && pip  install -r requirements.txt
