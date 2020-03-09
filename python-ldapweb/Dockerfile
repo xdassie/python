@@ -1,2 +1,2 @@
 FROM quay.io/xdassie/python:latest
-RUN pip install flask-simpleldap
+RUN pip install --upgrade flask-simpleldap
