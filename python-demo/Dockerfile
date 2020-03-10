@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 RUN apt-get -y update && apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev libaio1 libaio-dev  && apt-get -y upgrade &&  \
 apt-get -y install syslog-ng && \
