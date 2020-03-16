@@ -1,6 +1,17 @@
 FROM quay.io/xdassie/python:latest
+ARG DIRLIST="/app/"
+RUN mkdir -p ${DIRLIST}  && \ 
+    chgrp -Rf root ${DIRLIST} && chmod -Rf g+w  ${DIRLIST}
 #FROM python:3
 COPY requirements.txt ./
 
 RUN pip install --upgrade pip && pip  install -r requirements.txt
 RUN apt-get -y remove build-essential && apt-get -y autoremove
+RUN mkdir -p /app
+
+COPY ./app /app
+
+EXPOSE 8080
+
+CMD ["python", "/app/server.py"]
+
