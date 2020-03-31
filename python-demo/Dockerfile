@@ -1,5 +1,5 @@
 #FROM ubuntu:20.04
-FROM python:3.7.7-slim-buster
+FROM python:3.8.2-slim-buster
 RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get install -y build-essential libsasl2-dev python-dev libldap2-dev libssl-dev libaio1 libaio-dev 
 #apt-get -y install syslog-ng && \
