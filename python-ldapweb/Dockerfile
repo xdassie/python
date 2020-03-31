@@ -5,7 +5,7 @@ RUN mkdir -p ${DIRLIST}  && \
 #FROM python:3
 COPY requirements.txt ./
 
-RUN python pip -m install -r requirements.txt
+RUN python -m pip  install -r requirements.txt
 RUN apt-get -y remove build-essential && apt-get -y autoremove
 
 
