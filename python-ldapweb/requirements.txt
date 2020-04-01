@@ -1,6 +1,7 @@
 waitress
 flask
-python-ldap
+#python-ldap
+ldap3
 requests
 paste
 jira
