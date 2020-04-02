@@ -6,7 +6,8 @@ RUN mkdir -p ${DIRLIST}  && \
 COPY requirements.txt ./
 
 RUN python -m pip  install -r requirements.txt
-RUN apt-get -y remove build-essential && apt-get -y autoremove
+RUN apt-get -y remove build-essential && apt-get -y autoremove 
+RUN apt-get -y install ldap-utils
 
 
 EXPOSE 8080
