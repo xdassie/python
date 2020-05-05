@@ -6,4 +6,4 @@ requests
 paste
 jira
 flask-simpleldap
-OpenSSL
+pyopenssl
