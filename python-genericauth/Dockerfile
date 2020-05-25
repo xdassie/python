@@ -14,3 +14,4 @@ RUN apt-get -y install ldap-utils
 EXPOSE 8080
 
 CMD ["python", "/app/server.py"]
+COPY ./app /app
