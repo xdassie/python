@@ -81,10 +81,8 @@ app.debug = True
 check_ldap()
 
 # validate OS variables here
-ldap = LDAP(app)
 
 @app.route('/', methods=['GET', 'POST'])
-#@ldap.basic_auth_required
 def index():
     if request.method == 'GET':
         if not request.args:
