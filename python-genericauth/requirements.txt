@@ -1,0 +1,5 @@
+waitress
+ldap3
+requests
+paste
+pyopenssl
