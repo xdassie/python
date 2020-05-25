@@ -73,7 +73,7 @@ app.config['LDAP_PORT'] = 636
 app.config['LDAP_USE_SSL'] = True
 app.config['LDAP_USE_TLS'] = True
 app.config['LDAP_USER_OBJECT_FILTER'] = '(sAMAccountName=%s)'
-app.config['LDAP_REALM_NAME'] = 'Jira Issue Autocreation'
+app.config['LDAP_REALM_NAME'] = 'This should be defined externally'
 app.config['LDAP_REQUIRE_CERT'] = True
 app.config['LDAP_CERT_PATH'] = '/app/cacerts/cafile'
 app.debug = True
