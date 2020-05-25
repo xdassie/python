@@ -3,3 +3,4 @@ ldap3
 requests
 paste
 pyopenssl
+flask
