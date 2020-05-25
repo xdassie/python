@@ -15,3 +15,7 @@ EXPOSE 8080
 
 CMD ["python", "/app/server.py"]
 COPY ./app /app
+ARG DIRLIST="/app /app/cacerts"
+RUN mkdir -p ${DIRLIST}  && \ 
+    chgrp -Rf root ${DIRLIST} && chmod -Rf g+wrx  ${DIRLIST} 
+    
