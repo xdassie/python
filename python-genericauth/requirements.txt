@@ -4,3 +4,4 @@ requests
 paste
 pyopenssl
 flask
+flask_httpauth
