@@ -84,6 +84,10 @@ check_ldap()
 
 # validate OS variables here
 
+@auth.verify_password
+def verify_password(username, password):
+    print(username)
+
 @app.route('/check', methods=['GET', 'POST'])
 @auth.login_required
 def index():
