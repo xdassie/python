@@ -84,7 +84,7 @@ check_ldap()
 
 # validate OS variables here
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/check', methods=['GET', 'POST'])
 @auth.login_required
 def index():
     if request.method == 'GET':
