@@ -7,3 +7,4 @@ paste
 jira
 flask-simpleldap
 pyopenssl
+flask_httpauth
