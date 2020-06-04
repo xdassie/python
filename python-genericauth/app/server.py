@@ -80,13 +80,9 @@ app.config['LDAP_CERT_PATH'] = '/app/cacerts/cafile'
 check_ldap()
 
 # validate OS variables here
-app.run(debug=False)
 @app.route('/check', methods=['GET', 'POST'])
 def index():
-    if request.method == 'GET':
-        if not request.args:
-            return redirect("/?%d" % random.randint(1, 10000))
-    return make_response()
+    print("/check called")
     
 if __name__ == '__main__':
     serve(TransLogger(app, setup_console_handler=False), port=9999)
