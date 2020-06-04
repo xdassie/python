@@ -80,7 +80,7 @@ app.config['LDAP_CERT_PATH'] = '/app/cacerts/cafile'
 check_ldap()
 
 # validate OS variables here
-@app.route('/check', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     print("/check called")
     
