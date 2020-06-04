@@ -83,7 +83,8 @@ check_ldap()
 @app.route('/', methods=['GET', 'POST'])
 def index():
 #    return Response(response="{}", status=200, mimetype="application/json")
-    return Response(response="", status=403,mimetype="application/json")
+#    return Response(response="", status=403,mimetype="application/json")
+    return redirect("https://login.sso.vodacom.co.za/nidp/jsp/main.jsp")
     
 if __name__ == '__main__':
     serve(TransLogger(app, setup_console_handler=False), port=9999)
