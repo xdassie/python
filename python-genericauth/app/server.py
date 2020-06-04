@@ -8,6 +8,8 @@ from OpenSSL.crypto import _lib, _ffi, X509
 from ldap3 import Tls, ALL
 import ssl
 from ldap3 import Server, Connection, ALL
+import base64
+
 ldap_password = os.environ["LDAP_PASSWORD"].strip()
 ldap_username = os.environ["LDAP_USERNAME"].strip()
 
