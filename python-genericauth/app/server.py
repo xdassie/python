@@ -8,8 +8,6 @@ from OpenSSL.crypto import _lib, _ffi, X509
 from ldap3 import Tls, ALL
 import ssl
 from ldap3 import Server, Connection, ALL
-from flask_httpauth import HTTPBasicAuth
-
 ldap_password = os.environ["LDAP_PASSWORD"].strip()
 ldap_username = os.environ["LDAP_USERNAME"].strip()
 
@@ -53,7 +51,6 @@ def get_certificates(self):
     return tuple(pycerts)
 
 app = Flask(__name__)
-auth = HTTPBasicAuth()
 app.app_context().push()
 
 with open("/var/run/secrets/tls/0", "rb") as file:
@@ -84,12 +81,7 @@ check_ldap()
 
 # validate OS variables here
 
-@auth.verify_password
-def verify_password(username, password):
-    print(username)
-
 @app.route('/check', methods=['GET', 'POST'])
-@auth.login_required
 def index():
     if request.method == 'GET':
         if not request.args:
