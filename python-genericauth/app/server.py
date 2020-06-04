@@ -82,7 +82,7 @@ check_ldap()
 # validate OS variables here
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    print("/check called")
+    return Response(response="{}", status=200, mimetype="application/json")
     
 if __name__ == '__main__':
     serve(TransLogger(app, setup_console_handler=False), port=9999)
