@@ -75,12 +75,12 @@ app.config['LDAP_USER_OBJECT_FILTER'] = '(sAMAccountName=%s)'
 app.config['LDAP_REALM_NAME'] = 'This should be defined externally'
 app.config['LDAP_REQUIRE_CERT'] = True
 app.config['LDAP_CERT_PATH'] = '/app/cacerts/cafile'
-app.debug = True
+
 
 check_ldap()
 
 # validate OS variables here
-
+app.run(debug=True)
 @app.route('/check', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
