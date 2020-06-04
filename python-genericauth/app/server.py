@@ -80,11 +80,25 @@ app.config['LDAP_CERT_PATH'] = '/app/cacerts/cafile'
 check_ldap()
 
 # validate OS variables here
+
+def check(authorization_header):
+    username = "john"
+    password = "hunter2"
+    encoded_uname_pass = authorization_header.split()[-1]
+    if encoded_uname_pass == base64.b64encode(username + ":" + password):
+        return True
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
-    return redirect("https://login.sso.vodacom.co.za/nidp/jsp/main.jsp")
+    authorization_header = request.headers.get('Authorization')
+    if authorization_header and check(authorization_header):
+        return "Render confidential page"
+    else:
+        resp = Response()
+        resp.headers['WWW-Authenticate'] = 'Basic'
+        return resp, 401
     
 if __name__ == '__main__':
     serve(TransLogger(app, setup_console_handler=False), port=9999)
