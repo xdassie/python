@@ -87,7 +87,8 @@ def check(authorization_header):
     username = "john"
     password = "hunter2"
     encoded_uname_pass = authorization_header.split()[-1]
-    if encoded_uname_pass == base64.b64encode(username + ":" + password):
+    correctcredentials = username + ":" + password
+    if encoded_uname_pass == base64.b64encode(correctcredentials.encode()):
         return True
 
 @app.route('/', methods=['GET', 'POST'])
