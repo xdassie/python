@@ -91,6 +91,7 @@ def check(authorization_header):
     correctcredentials = base64.b64encode((username + ":" + password).encode())
     logging.warn(encoded_uname_pass)
     logging.warn(correctcredentials)
+    
     if encoded_uname_pass == correctcredentials:
         return True
 
