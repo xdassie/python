@@ -106,4 +106,4 @@ def index():
         return resp, 401
     
 if __name__ == '__main__':
-    serve(TransLogger(app, setup_console_handler=False), port=9999)
+    serve(TransLogger(app, setup_console_handler=True), port=9999)
