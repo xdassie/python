@@ -89,8 +89,8 @@ def check(authorization_header):
     password = "hunter2"
     encoded_uname_pass = authorization_header.split()[-1]
     correctcredentials = username + ":" + password
-    logging.info(encoded_uname_pass)
-    logging.info(correctcredentials)
+    logging.warn(encoded_uname_pass)
+    logging.warn(correctcredentials)
     if encoded_uname_pass == base64.b64encode(correctcredentials.encode()):
         return True
 
