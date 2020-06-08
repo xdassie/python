@@ -88,7 +88,7 @@ def check(authorization_header):
     username = "john"
     password = "hunter2"
     encoded_uname_pass = authorization_header.split()[-1]
-    correctcredentials = base64.b64encode((username + ":" + password).encode())
+    correctcredentials = str(base64.b64encode((username + ":" + password).encode()),'utf-8')
     logging.warn(encoded_uname_pass)
     logging.warn(correctcredentials)
     
