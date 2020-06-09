@@ -13,10 +13,10 @@ import logging
 
 ldap_password = os.environ["LDAP_PASSWORD"].strip()
 ldap_username = os.environ["LDAP_USERNAME"].strip()
-
+ldap_host = os.environ["LDAP_HOST"].strip()
 def check_ldap():
     tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2) 
-    server = Server('ldaps://eassec.vodacom.corp', use_ssl=True,tls=tls_ctx,port=636 )
+    server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
     conn = Connection(server,user='cn=svc_sdm_devops,ou=services,o=auth',password=ldap_password,auto_bind=True)
     #conn.start_tls()
     conn.bind()
@@ -69,7 +69,7 @@ with open("/var/run/secrets/tls/0", "rb") as file:
 app.config['LDAP_BASE_DN'] = os.environ["LDAP_BASE_DN"]
 app.config['LDAP_USERNAME'] = ldap_username
 app.config['LDAP_PASSWORD'] = ldap_password
-app.config['LDAP_HOST'] = os.environ["LDAP_HOST"]
+app.config['LDAP_HOST'] = ldap_host
 app.config['LDAP_SCHEMA'] = "ldaps"
 app.config['LDAP_PORT'] = 636
 app.config['LDAP_USE_SSL'] = True
