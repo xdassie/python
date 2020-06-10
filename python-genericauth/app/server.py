@@ -102,7 +102,7 @@ def index():
     if authorization_header:
         logging.warning(2)
         result = check(authorization_header)
-        Response(response="{auth}", status=200, mimetype="application/json")
+        return Response(response="{auth}", status=200, mimetype="application/json")
         logging.warning(3)
         if result == True:
             logging.warning(4)
