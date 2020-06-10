@@ -90,8 +90,6 @@ check_ldap()
 
 # validate OS variables here
 
-def check(authorization_header):
-    return ldap_auth(request.authorization.username,request.authorization.password)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -101,8 +99,8 @@ def index():
     logging.warning(1)
     if authorization_header:
         logging.warning(2)
-        return Response(response="{auth}", status=200, mimetype="application/json")
-        result = check(authorization_header)
+        
+        result = ldap_auth(request.authorization.username,request.authorization.password)
         
         logging.warning(3)
         if result == True:
