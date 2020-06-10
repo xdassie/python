@@ -98,9 +98,10 @@ def index():
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
     authorization_header = request.headers.get('Authorization')
-    result = check(authorization_header)
-    if result == True:
-        return Response(response="{}", status=200, mimetype="application/json")
+    if authorization_header:
+        result = check(authorization_header)
+        if result == True:
+            return Response(response="{auth}", status=200, mimetype="application/json")
     else:
         resp = Response()
         resp.headers['WWW-Authenticate'] = 'Basic'
