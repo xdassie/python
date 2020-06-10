@@ -36,7 +36,7 @@ def ldap_auth(auth_username , auth_pass):
     server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
     conn = Connection(server,user='cn=' + auth_username + ',ou=Users,o=AUTH', password=auth_pass,auto_bind=True)
     result = conn.bind()
-    logging.warn('LDAP result:' + result)
+    logging.warn('LDAP result:' + str(result))
     return result
 
 def get_certificates(self):
