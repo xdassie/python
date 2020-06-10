@@ -97,6 +97,7 @@ def check(authorization_header):
 def index():
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
+    return Response(response="{auth}", status=200, mimetype="application/json")
     authorization_header = request.headers.get('Authorization')
     logging.warning(1)
     if authorization_header:
