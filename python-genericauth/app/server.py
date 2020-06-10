@@ -101,8 +101,9 @@ def index():
     logging.warning(1)
     if authorization_header:
         logging.warning(2)
-        result = check(authorization_header)
         return Response(response="{auth}", status=200, mimetype="application/json")
+        result = check(authorization_header)
+        
         logging.warning(3)
         if result == True:
             logging.warning(4)
