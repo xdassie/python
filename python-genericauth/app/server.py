@@ -27,11 +27,17 @@ def check_ldap():
     print(conn.entries)
     print(conn.search('cn=svc_sdm_devops,ou=services,o=auth', '(objectclass=person)'))
     print(conn.entries)
-    print(conn.search('cn=dasneved,ou=services,o=auth', '(objectclass=person)'))
-    print(conn.entries)
-    print(conn.search('cn=dasneved,ou=services,o=auth', '(objectclass=person)'))
+    print(conn.search('cn=dasneved,ou=Users,o=AUTH', '(objectclass=person)'))
     print(conn.entries)
     return conn
+
+def ldap_auth(username,pass):
+    tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2)
+    server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
+    conn = Connection(server,user='cn=' + username + ',ou=Users,o=AUTH',pass,auto_bind=True)
+    result = conn.bind()
+    logging.warn('LDAP result:' + result)
+    return result
 
 def get_certificates(self):
     certs = _ffi.NULL
@@ -85,15 +91,7 @@ check_ldap()
 # validate OS variables here
 
 def check(authorization_header):
-    username = "john"
-    password = "hunter2"
-    encoded_uname_pass = authorization_header.split()[-1]
-    correctcredentials = str(base64.b64encode((username + ":" + password).encode()),'utf-8')
-#    logging.warn(encoded_uname_pass)
-#    logging.warn(correctcredentials)
-    
-    if encoded_uname_pass == correctcredentials:
-        return True
+    return ldap_auth(request.authorization.username,request.authorization.password)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
