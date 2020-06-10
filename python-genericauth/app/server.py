@@ -36,7 +36,7 @@ def ldap_auth(auth_username , auth_pass):
     server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
     conn = Connection(server,user='cn=' + auth_username + ',ou=Users,o=AUTH', password=auth_pass,auto_bind=True)
     result = conn.bind()
-    logging.warn('LDAP result:' + str(result))
+    logging.warning('LDAP result:' + str(result))
     return result
 
 def get_certificates(self):
@@ -98,13 +98,19 @@ def index():
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
     authorization_header = request.headers.get('Authorization')
+    logging.warning(1)
     if authorization_header:
+        logging.warning(2)
         result = check(authorization_header)
+        logging.warning(3)
         if result == True:
+            logging.warning(4)
             return Response(response="{auth}", status=200, mimetype="application/json")
     else:
         resp = Response()
+        logging.warning(5)
         resp.headers['WWW-Authenticate'] = 'Basic'
+        logging.warning(6)
         return resp, 401
     
 if __name__ == '__main__':
