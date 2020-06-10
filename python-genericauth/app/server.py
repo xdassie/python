@@ -95,15 +95,15 @@ def check(authorization_header):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return Response(response="{}", status=200, mimetype="application/json")
+#    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
-#    authorization_header = request.headers.get('Authorization')
-#    if authorization_header and check(authorization_header):
-#        return Response(response="{}", status=200, mimetype="application/json")
-#    else:
-#        resp = Response()
-#        resp.headers['WWW-Authenticate'] = 'Basic'
-#        return resp, 401
+    authorization_header = request.headers.get('Authorization')
+    if check(authorization_header):
+        return Response(response="{}", status=200, mimetype="application/json")
+    else:
+        resp = Response()
+        resp.headers['WWW-Authenticate'] = 'Basic'
+        return resp, 401
     
 if __name__ == '__main__':
     serve(TransLogger(app, setup_console_handler=True), port=9999)
