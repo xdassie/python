@@ -105,7 +105,7 @@ def index():
         logging.warning(3)
         if result == True:
             logging.warning(4)
-            return Response(response="{auth}", status=200, mimetype="application/json")
+            return Response(response="{auth}", status=200, mimetype="application/json"),200
     else:
         resp = Response()
         logging.warning(5)
