@@ -31,10 +31,10 @@ def check_ldap():
     print(conn.entries)
     return conn
 
-def ldap_auth(username,pass):
+def ldap_auth(auth_username , auth_pass):
     tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2)
     server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
-    conn = Connection(server,user='cn=' + username + ',ou=Users,o=AUTH',pass,auto_bind=True)
+    conn = Connection(server,user='cn=' + auth_username + ',ou=Users,o=AUTH',auth_pass,auto_bind=True)
     result = conn.bind()
     logging.warn('LDAP result:' + result)
     return result
