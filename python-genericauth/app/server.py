@@ -37,7 +37,7 @@ def ldap_auth(auth_username , auth_pass):
     conn = Connection(server,user='cn=' + auth_username + ',ou=Users,o=AUTH', password=auth_pass,auto_bind=True)
     result = conn.bind()
     logging.warning('LDAP result:' + str(result))
-    return result
+    return True
 
 def get_certificates(self):
     certs = _ffi.NULL
