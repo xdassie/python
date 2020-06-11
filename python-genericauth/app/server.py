@@ -104,9 +104,9 @@ def index():
             result = ldap_auth(request.authorization.username,request.authorization.password)
             return Response(response="{auth}", status=200, mimetype="application/json"),200
         except:            
-            require_auth()
+            return require_auth()
     else:
-        require_auth()
+        return require_auth()
     
 if __name__ == '__main__':
     serve(TransLogger(app, setup_console_handler=True), port=9999)
