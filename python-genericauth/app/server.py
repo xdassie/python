@@ -90,28 +90,24 @@ check_ldap()
 
 # validate OS variables here
 
+def require_auth():
+    resp = Response()
+    resp.headers['WWW-Authenticate'] = 'Basic'
+    return resp, 401
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
     authorization_header = request.headers.get('Authorization')
-    logging.warning(1)
     if authorization_header:
-        logging.warning(2)
-        
         result = ldap_auth(request.authorization.username,request.authorization.password)
-        
-        logging.warning(3)
         if result == True:
-            logging.warning(4)
             return Response(response="{auth}", status=200, mimetype="application/json"),200
+        else:
+            require_auth()
     else:
-        resp = Response()
-        logging.warning(5)
-        resp.headers['WWW-Authenticate'] = 'Basic'
-        logging.warning(6)
-        return resp, 401
+        require_auth()
     
 if __name__ == '__main__':
     serve(TransLogger(app, setup_console_handler=True), port=9999)
