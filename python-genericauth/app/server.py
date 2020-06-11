@@ -100,7 +100,6 @@ def index():
     if authorization_header:
         logging.warning(2)
         
-        return Response(response="{auth}", status=200, mimetype="application/json"),200
         result = ldap_auth(request.authorization.username,request.authorization.password)
         
         logging.warning(3)
