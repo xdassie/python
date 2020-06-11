@@ -35,10 +35,7 @@ def ldap_auth(auth_username , auth_pass):
     tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2)
     server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
     conn = Connection(server,user='cn=' + auth_username + ',ou=Users,o=AUTH', password=auth_pass,auto_bind=True)
-    try:
-        result = conn.bind()
-    except:
-        return False
+    result = conn.bind()
     return True
 
 def get_certificates(self):
@@ -103,10 +100,10 @@ def index():
 #    return Response(response="", status=403,mimetype="application/json")
     authorization_header = request.headers.get('Authorization')
     if authorization_header:
-        result = ldap_auth(request.authorization.username,request.authorization.password)
-        if result == True:
+        try:
+            result = ldap_auth(request.authorization.username,request.authorization.password)
             return Response(response="{auth}", status=200, mimetype="application/json"),200
-        else:
+        except:            
             require_auth()
     else:
         require_auth()
