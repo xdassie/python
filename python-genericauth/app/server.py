@@ -94,7 +94,8 @@ def require_auth():
     resp.headers['WWW-Authenticate'] = 'Basic'
     return resp, 401
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', defaults={'path': ''},methods=['GET', 'POST'])
+@app.route('/', '/<path:path>',methods=['GET', 'POST'])
 def index():
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
