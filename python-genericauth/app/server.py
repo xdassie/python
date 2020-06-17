@@ -94,8 +94,8 @@ def require_auth():
     resp.headers['WWW-Authenticate'] = 'Basic'
     return resp, 401
 
-#@app.route('/', defaults={'path': ''},methods={"GET","POST"})
-#@app.route('/<string:path>/<string:path2>',methods={"GET","POST"})
+@app.route('/', defaults={'path': ''},methods={"GET","POST"})
+@app.route('/<string:path>/<string:path2>',methods={"GET","POST"})
 def index(path, path2 = None):
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
@@ -108,9 +108,6 @@ def index(path, path2 = None):
             return require_auth()
     else:
         return require_auth()
-
-app.add_url_rule(rule = '/<p1>/<p2>', methods = ['GET','POST'],
-    endpoint = 'index', view_func = index)    
     
 if __name__ == '__main__':
     serve(TransLogger(app, setup_console_handler=True), port=9999)
