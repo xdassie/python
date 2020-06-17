@@ -97,7 +97,7 @@ def require_auth():
 @app.route('/', defaults={'path': ''},methods={"GET","POST"})
 @app.route('/<path:path>',methods={"GET","POST"})
 @app.route('/<path:prefix>/<path:path>',methods={"GET","POST"})
-def index(path,prefix):
+def index(prefix,path):
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
     authorization_header = request.headers.get('Authorization')
