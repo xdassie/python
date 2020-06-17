@@ -94,8 +94,11 @@ def require_auth():
     resp.headers['WWW-Authenticate'] = 'Basic'
     return resp, 401
 
+app.add_url_rule(rule = '/<p1>/<p2>', methods = ['GET','POST'],
+    endpoint = 'index', view_func = index)
+
 @app.route('/', defaults={'path': ''},methods={"GET","POST"})
-@app.route('/<string:path>/<string:path2>',methods={"GET","POST"})
+#@app.route('/<string:path>/<string:path2>',methods={"GET","POST"})
 def index(path,path2):
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
