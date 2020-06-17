@@ -95,7 +95,7 @@ def require_auth():
     return resp, 401
 
 @app.route('/', defaults={'path': ''},methods={"GET","POST"})
-@app.route('/<path:path>/<path:path2>',methods={"GET","POST"})
+@app.route('/<string:path>/<string:path2>',methods={"GET","POST"})
 def index(path,path2):
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
