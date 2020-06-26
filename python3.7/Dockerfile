@@ -1,5 +1,7 @@
-FROM quay.io/xdassie/python:latest
-RUN apt-get -y update && apt-get -y install python3.7 2>&1 
-RUN update-alternatives --list python
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1
+FROM ubuntu:18.04
+#FROM python:3.8.2-slim-buster
+RUN apt-get -y update && apt-get -y upgrade
+#RUN apt-get install -y build-essential libsasl2-dev python-dev libldap2-dev libssl-dev libaio1 libaio-dev 
+RUN apt-get -y install python-dev-is-python3 python3-pip build-essential libsasl2-dev libldap2-dev libssl-dev libaio1 libaio-dev
+RUN python -m pip install --upgrade virtualenv  &&  python -m pip install --upgrade pip
 
