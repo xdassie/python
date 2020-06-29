@@ -14,22 +14,7 @@ import logging
 ldap_password = os.environ["LDAP_PASSWORD"].strip()
 ldap_username = os.environ["LDAP_USERNAME"].strip()
 ldap_host = os.environ["LDAP_HOST"].strip()
-def check_ldap():
-    tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2) 
-    server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
-    conn = Connection(server,user='cn=svc_sdm_devops,ou=services,o=auth',password=ldap_password,auto_bind=True)
-    #conn.start_tls()
-    conn.bind()
-    print(conn)
-    LDAP_FILTER = '(objectclass=person)'
-    LDAP_ATTRS = ["cn", "dn", "sn", "givenName"]
-    print(conn.search('dc=demo1,dc=freeipa,dc=org', '(objectclass=person)'))
-    print(conn.entries)
-    print(conn.search('cn=svc_sdm_devops,ou=services,o=auth', '(objectclass=person)'))
-    print(conn.entries)
-    print(conn.search('cn=dasneved,ou=Users,o=AUTH', '(objectclass=person)'))
-    print(conn.entries)
-    return conn
+
 
 def ldap_auth(auth_username , auth_pass):
     tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2)
@@ -83,9 +68,6 @@ app.config['LDAP_USER_OBJECT_FILTER'] = '(sAMAccountName=%s)'
 app.config['LDAP_REALM_NAME'] = 'This should be defined externally'
 app.config['LDAP_REQUIRE_CERT'] = True
 app.config['LDAP_CERT_PATH'] = '/app/cacerts/cafile'
-
-
-check_ldap()
 
 # validate OS variables here
 
