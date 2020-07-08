@@ -5,3 +5,4 @@ paste
 pyopenssl
 flask
 flask_httpauth
+redis
