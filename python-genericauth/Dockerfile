@@ -7,7 +7,7 @@ COPY requirements.txt ./
 
 RUN python -m pip  install -r requirements.txt
 RUN apt-get -y remove build-essential && apt-get -y autoremove 
-RUN apt-get -y install ldap-utils
+RUN apt-get -y install ldap-utils redis
 
 EXPOSE 8080
 
