@@ -10,6 +10,12 @@ import ssl
 from ldap3 import Server, Connection, ALL
 import base64
 import logging
+import redis
+import hashlib
+
+redis_host = "localhost"
+redis_port = 6379
+redis_password = ""
 
 ldap_password = os.environ["LDAP_PASSWORD"].strip()
 ldap_username = os.environ["LDAP_USERNAME"].strip()
@@ -17,6 +23,10 @@ ldap_host = os.environ["LDAP_HOST"].strip()
 
 
 def ldap_auth(auth_username , auth_pass):
+    salt = os.urandom(32)
+    key = hashlib.pbkdf2_hmac('sha256', auth_pass.encode('utf-8'), salt, 100000)
+    info.warning(key)
+
     tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2)
     server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
     conn = Connection(server,user='cn=' + auth_username + ',ou=Users,o=AUTH', password=auth_pass,auto_bind=True)
@@ -49,7 +59,6 @@ app.app_context().push()
 with open("/var/run/secrets/tls/0", "rb") as file:
     p7 = crypto.load_pkcs7_data(crypto.FILETYPE_PEM,file.read())
     certs = get_certificates(p7)
-    print(certs)
     cafile = open("/app/cacerts/cafile","wb")
     for cert in certs:
         print('digest:{}'.format(cert.digest('sha256')))
@@ -76,8 +85,7 @@ def require_auth():
     resp.headers['WWW-Authenticate'] = 'Basic'
     return resp, 401
 
-#@app.route('/', defaults={'path': ''},methods={"GET","POST"})
-#@app.route('/<string:path>/<string:path2>',methods={"GET","POST"})
+
 @app.route('/', defaults={'u_path': ''},methods={"GET","POST"})
 @app.route('/<path:u_path>',methods={"GET","POST"})
 @app.route('/<string:u_path>',methods={"GET","POST"})
