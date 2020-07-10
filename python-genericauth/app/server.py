@@ -49,12 +49,21 @@ def expiring_salt():
 def ldap_auth(auth_username , auth_pass):
     key = hashlib.pbkdf2_hmac('sha256', auth_pass.encode('utf-8'), expiring_salt(), 100000)
     logging.warning(key)
-
-    tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2)
-    server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
-    conn = Connection(server,user='cn=' + auth_username + ',ou=Users,o=AUTH', password=auth_pass,auto_bind=True)
-    result = conn.bind()
-    return True
+# check if the key is already in the cache. If so return true as if the authentication response was valid. Otherwise continue to authenticate and cache the actual response
+    r = redis.StrictRedis(host=redis_host, port=redis_port, password=redis_password, decode_responses=True)
+    cached = r.get(key)
+    if cached:
+        return True
+    else:
+        tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2)
+        server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
+        conn = Connection(server,user='cn=' + auth_username + ',ou=Users,o=AUTH', password=auth_pass,auto_bind=True)
+        result = conn.bind()
+        if result:
+            r.set(key,True,ex=10)    # cached key will expire after 10 sec
+            return True
+        else:
+            return False
 
 def get_certificates(self):
     certs = _ffi.NULL
@@ -121,7 +130,10 @@ def index(u_path,u_string = None):
     if authorization_header:
         try:
             result = ldap_auth(request.authorization.username,request.authorization.password)
-            return Response(response="{auth}", status=200, mimetype="application/json"),200
+            if result:
+                return Response(response="{auth}", status=200, mimetype="application/json"),200
+            else:
+                return require_auth()
         except Exception as e:
             logging.warning(e)
             return require_auth()
