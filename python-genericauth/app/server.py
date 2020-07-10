@@ -12,6 +12,7 @@ import base64
 import logging
 import redis
 import hashlib
+import datetime
 
 redis_host = "localhost"
 redis_port = 6379
@@ -21,10 +22,16 @@ ldap_password = os.environ["LDAP_PASSWORD"].strip()
 ldap_username = os.environ["LDAP_USERNAME"].strip()
 ldap_host = os.environ["LDAP_HOST"].strip()
 
+salt = os.urandom(32)
+salt_timestamp = datetime.datetime.now() 
+def expiring_salt():
+    datetime_object = datetime.datetime.now() 
+    difference = datetime_object - salt_timestamp
+    logging.warning(difference)
+    return salt
 
 def ldap_auth(auth_username , auth_pass):
-    salt = os.urandom(32)
-    key = hashlib.pbkdf2_hmac('sha256', auth_pass.encode('utf-8'), salt, 100000)
+    key = hashlib.pbkdf2_hmac('sha256', auth_pass.encode('utf-8'), expiring_salt(), 100000)
     logging.warning(key)
 
     tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2)
