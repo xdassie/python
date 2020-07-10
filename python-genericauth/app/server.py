@@ -25,7 +25,7 @@ ldap_host = os.environ["LDAP_HOST"].strip()
 def ldap_auth(auth_username , auth_pass):
     salt = os.urandom(32)
     key = hashlib.pbkdf2_hmac('sha256', auth_pass.encode('utf-8'), salt, 100000)
-    info.warning(key)
+    logging.warning(key)
 
     tls_ctx = Tls( validate=ssl.CERT_REQUIRED, ca_certs_file='/app/cacerts/cafile', version=ssl.PROTOCOL_TLSv1_2)
     server = Server('ldaps://' + ldap_host, use_ssl=True,tls=tls_ctx,port=636 )
