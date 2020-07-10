@@ -27,7 +27,10 @@ salt_timestamp = datetime.datetime.now()
 def expiring_salt():
     datetime_object = datetime.datetime.now() 
     difference = datetime_object - salt_timestamp
-    logging.warning(difference)
+    if difference.total_seconds()>60:
+        salt_timestamp = datetime.datetime.now() 
+        salt = os.urandom(32)
+        return salt
     return salt
 
 def ldap_auth(auth_username , auth_pass):
