@@ -32,6 +32,7 @@ def expiring_salt():
     global salt
     global salt_timestamp
     if first:
+        first = False
         salt = os.urandom(32)
         salt_timestamp = datetime.datetime.now()        
     try:
