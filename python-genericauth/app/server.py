@@ -25,11 +25,15 @@ ldap_password = os.environ["LDAP_PASSWORD"].strip()
 ldap_username = os.environ["LDAP_USERNAME"].strip()
 ldap_host = os.environ["LDAP_HOST"].strip()
 
+first = True
 
 def expiring_salt():
     lock.acquire()
-    global salt = os.urandom(32)
-    global salt_timestamp = datetime.datetime.now() 
+    global salt
+    global salt_timestamp
+    if first:
+        salt = os.urandom(32)
+        salt_timestamp = datetime.datetime.now()        
     try:
         datetime_object = datetime.datetime.now() 
         difference = datetime_object - salt_timestamp
