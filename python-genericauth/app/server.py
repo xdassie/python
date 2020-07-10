@@ -99,7 +99,8 @@ def index(u_path,u_string = None):
         try:
             result = ldap_auth(request.authorization.username,request.authorization.password)
             return Response(response="{auth}", status=200, mimetype="application/json"),200
-        except:            
+        except Exception as e:
+            logging.warning(e)
             return require_auth()
     else:
         return require_auth()
