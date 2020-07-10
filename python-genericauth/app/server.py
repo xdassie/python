@@ -60,7 +60,7 @@ def ldap_auth(auth_username , auth_pass):
         conn = Connection(server,user='cn=' + auth_username + ',ou=Users,o=AUTH', password=auth_pass,auto_bind=True)
         result = conn.bind()
         if result:
-            r.set(key,True,ex=10)    # cached key will expire after 10 sec
+            r.set(key,1,ex=10)    # cached key will expire after 10 sec
             return True
         else:
             return False
