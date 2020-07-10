@@ -13,7 +13,10 @@ import logging
 import redis
 import hashlib
 import datetime
+from threading import RLock
 
+lock = RLock()
+        
 redis_host = "localhost"
 redis_port = 6379
 redis_password = ""
@@ -22,16 +25,20 @@ ldap_password = os.environ["LDAP_PASSWORD"].strip()
 ldap_username = os.environ["LDAP_USERNAME"].strip()
 ldap_host = os.environ["LDAP_HOST"].strip()
 
-salt = os.urandom(32)
-salt_timestamp = datetime.datetime.now() 
+
 def expiring_salt():
-    datetime_object = datetime.datetime.now() 
-    difference = datetime_object - salt_timestamp
-    if difference.total_seconds()>60:
-        salt_timestamp = datetime.datetime.now() 
-        salt = os.urandom(32)
+    lock.acquire()
+    global salt = os.urandom(32)
+    global salt_timestamp = datetime.datetime.now() 
+    try:
+        datetime_object = datetime.datetime.now() 
+        difference = datetime_object - salt_timestamp
+        if difference.total_seconds()>60:
+            salt_timestamp = datetime.datetime.now() 
+            salt = os.urandom(32)
+    finally:
+        lock.release()
         return salt
-    return salt
 
 def ldap_auth(auth_username , auth_pass):
     key = hashlib.pbkdf2_hmac('sha256', auth_pass.encode('utf-8'), expiring_salt(), 100000)
