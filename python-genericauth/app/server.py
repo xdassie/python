@@ -31,6 +31,7 @@ def expiring_salt():
     lock.acquire()
     global salt
     global salt_timestamp
+    global first
     if first:
         first = False
         salt = os.urandom(32)
