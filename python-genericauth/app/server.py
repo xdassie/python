@@ -122,6 +122,7 @@ def require_auth():
 @app.route('/<string:u_path>',methods={"GET","POST"})
 @app.route('/<path:u_path>/<string:u_string>',methods={"GET","POST"})
 @app.route('/static/<path:u_path>/<string:u_string>',methods={"GET","POST"})
+@app.route('/static/<string:u_string>',methods={"GET","POST"})
 def index(u_path,u_string = None):
 #    return Response(response="{}", status=200, mimetype="application/json")
 #    return Response(response="", status=403,mimetype="application/json")
