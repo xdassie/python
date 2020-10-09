@@ -6,4 +6,4 @@ RUN apt-get -y install python3-pip build-essential libsasl2-dev libldap2-dev lib
 ENV TZ=Africa/Johannesburg
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install  gzip wget git zip software-properties-common
 RUN python3 -m pip install --upgrade virtualenv  &&  python3 -m pip install --upgrade pip pytest
-RUN add-apt-repository ppa:deadsnakes/ppa && apt install -y python3.6
+RUN add-apt-repository ppa:deadsnakes/ppa && apt install -y python3.7
