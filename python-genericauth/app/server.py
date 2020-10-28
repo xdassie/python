@@ -47,7 +47,7 @@ def expiring_salt():
         return salt
 
 def ldap_auth(auth_username , auth_pass):
-    key = hashlib.pbkdf2_hmac('sha256', auth_pass.encode('utf-8'), expiring_salt(), 100000)
+    key = hashlib.pbkdf2_hmac('sha256', auth_pass.encode('utf-8'), expiring_salt(), 100)
 # check if the key is already in the cache. If so return true as if the authentication response was valid. Otherwise continue to authenticate and cache the actual response
     r = redis.StrictRedis(host=redis_host, port=redis_port, password=redis_password, decode_responses=True)
     cached = r.get(key)
